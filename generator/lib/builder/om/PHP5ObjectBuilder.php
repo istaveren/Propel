@@ -4592,16 +4592,17 @@ abstract class " . $this->getClassname() . " extends " . $parentClass . " ";
      * through the " . $tblFK->getName() . " cross reference table.
      *
      * @param  " . $crossObjectClassName . " " . $crossObjectName . " The $className object to relate
+     * @param PropelPDO \$con Optional connection object
      * @return "   . $this->getObjectClassname() . " The current object (for fluent API support)
      */
-    public function add{$relatedObjectClassName}($crossObjectClassName $crossObjectName)
+    public function add{$relatedObjectClassName}($crossObjectClassName $crossObjectName, PropelPDO \$con = null)
     {
         if (\$this->" . $collName . " === null) {
             \$this->init" . $relCol . "();
         }
 
         if (!\$this->" . $collName . "->contains(" . $crossObjectName . ")) { // only add it if the **same** object is not already associated
-            \$this->doAdd{$relatedObjectClassName}($crossObjectName);
+            \$this->doAdd{$relatedObjectClassName}($crossObjectName, \$con);
             \$this->" . $collName . "[] = " . $crossObjectName . ";
 
             if (\$this->" . $scheduledForDeletion . " and \$this->" . $scheduledForDeletion . "->contains(" . $crossObjectName . ")) {
@@ -4649,7 +4650,6 @@ abstract class " . $this->getClassname() . " extends " . $parentClass . " ";
             \$this->add{$refKObjectClassName}({$foreignObjectName});
 
             \$foreignCollection = \${$lowerRelatedObjectClassName}->get{$selfRelationNamePlural}(null, \$con);
-
             \$foreignCollection[] = \$this;
         }
     }
