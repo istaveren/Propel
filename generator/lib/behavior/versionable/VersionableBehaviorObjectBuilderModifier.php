@@ -101,7 +101,7 @@ class VersionableBehaviorObjectBuilderModifier
 
     public function preSave(PHP5ObjectBuilder $builder)
     {
-        $script = "if (\$this->isVersioningNecessary()) {
+        $script = "if (\$this->isVersioningNecessary(\$con)) {
     \$this->set{$this->getColumnPhpName()}(\$this->isNew() ? 1 : \$this->getLastVersionNumber(\$con) + 1);";
         if ($this->behavior->getParameter('log_created_at') == 'true') {
             $col = $this->behavior->getTable()->getColumn($this->getParameter('version_created_at_column'));
@@ -365,7 +365,7 @@ public function addVersion(\$con = null)
                 $idsColumn = $this->behavior->getReferrerIdsColumn($fk);
                 $versionsColumn = $this->behavior->getReferrerVersionsColumn($fk);
                 $script .= "
-    if (\$relateds = \$this->get{$fkGetter}(\$con)->toKeyValue('{$fk->getTable()->getFirstPrimaryKeyColumn()->getPhpName()}', 'Version')) {
+    if (\$relateds = \$this->get{$fkGetter}(null, \$con)->toKeyValue('{$fk->getTable()->getFirstPrimaryKeyColumn()->getPhpName()}', 'Version')) {
         \$version->set{$idsColumn->getPhpName()}(array_keys(\$relateds));
         \$version->set{$versionsColumn->getPhpName()}(array_values(\$relateds));
     }";
