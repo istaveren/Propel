@@ -68,7 +68,7 @@ class PropelMigrationDownTask extends BasePropelMigrationTask
                     $stmt->execute();
                     $res++;
                 } catch (PDOException $e) {
-                    $this->log(sprintf('Failed to execute SQL "%s"', $statement), Project::MSG_ERR);
+                    $this->log(sprintf('Failed to execute SQL "%s", error "%s"', $statement, $e->getMessage()), Project::MSG_ERR);
                     // continue
                 }
             }

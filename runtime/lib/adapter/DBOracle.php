@@ -306,4 +306,48 @@ class DBOracle extends DBAdapter
 FROM PLAN_TABLE CONNECT BY PRIOR ID = PARENT_ID AND PRIOR STATEMENT_ID = STATEMENT_ID
 START WITH ID = 0 AND STATEMENT_ID = \'%s\' ORDER BY ID', $uniqueId);
     }
+    
+    /**
+     * Should Column-Names get identifiers for inserts or updates.
+     * By default false is returned -> backwards compability.
+     *
+     * it`s a workaround...!!!
+     *
+     * @todo       should be abstract
+     * @deprecated
+     *
+     * @return boolean
+     */
+    public function useQuoteIdentifier()
+    {
+        return true;
+    }
+    
+    /**
+     * @see       DBAdapter::quoteIdentifier()
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    public function quoteIdentifier($text)
+    {
+        return '"' . $text . '"';
+    }
+
+    /**
+     * @see       DBAdapter::quoteIdentifierTable()
+     *
+     * @param string $table
+     *
+     * @return string
+     */
+    public function quoteIdentifierTable($table)
+    {
+        // e.g. 'database.table alias' should be escaped as '"database"."table" "alias"'
+        $qouted = '"' . strtr($table, array('.' => '"."', ' ' => '" "')) . '"';
+        
+        // removes duplicates
+        return str_replace('""', '"', $qouted);
+    }
 }

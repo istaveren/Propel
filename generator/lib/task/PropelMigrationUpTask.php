@@ -63,7 +63,7 @@ class PropelMigrationUpTask extends BasePropelMigrationTask
                     $stmt->execute();
                     $res++;
                 } catch (PDOException $e) {
-                    $this->log(sprintf('Failed to execute SQL "%s". Aborting migration.', $statement), Project::MSG_ERR);
+                    $this->log(sprintf('Failed to execute SQL "%s". Error "%s". Aborting migration.', $statement, $e->getMessage()), Project::MSG_ERR);
 
                     return false;
                     // continue

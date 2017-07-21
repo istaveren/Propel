@@ -235,7 +235,7 @@ DROP SEQUENCE " . $this->quoteIdentifier($this->getSequenceName($table)) . ";
 
     public function quoteIdentifier($text)
     {
-        return $text;
+        return $this->isIdentifierQuotingEnabled ? '"' . strtr($text, array('.' => '"."')) . '"' : $text;
     }
 
     public function getTimestampFormatter()
@@ -378,7 +378,7 @@ CREATE %sINDEX %s ON %s (%s)%s;
 %s = \$row[0];";
         $script = sprintf($snippet,
             $connectionVariableName,
-            $sequenceName,
+            $this->quoteIdentifier($sequenceName),
             $columnValueMutator
         );
 

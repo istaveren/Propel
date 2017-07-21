@@ -702,7 +702,7 @@ abstract class " . $this->getClassname() . $extendingPeerClass . "
         foreach ($this->getTable()->getColumns() as $col) {
             if (!$col->isLazyLoad()) {
                 $script .= "
-            \$criteria->addSelectColumn(" . $this->getPeerClassname() . "::" . $this->getColumnName($col) . ");";
+            \$criteria->addSelectColumn('" . $this->getDatabase()->getPlatform()->quoteIdentifier($this->getTable()->getName().".". $col->getName()) . "');";
             } // if !col->isLazyLoad
         } // foreach
         $script .= "
@@ -710,7 +710,7 @@ abstract class " . $this->getClassname() . $extendingPeerClass . "
         foreach ($this->getTable()->getColumns() as $col) {
             if (!$col->isLazyLoad()) {
                 $script .= "
-            \$criteria->addSelectColumn(\$alias . '." . $col->getName() . "');";
+            \$criteria->addSelectColumn(\$alias . '." . $this->getDatabase()->getPlatform()->quoteIdentifier($col->getName()) . "');";
             } // if !col->isLazyLoad
         } // foreach
         $script .= "

@@ -721,6 +721,7 @@ class BasePeer
         }
 
         // Unique from clause elements
+        $fromClause = self::useQuoteIndetifiers($db, $fromClause);
         $fromClause = array_unique($fromClause);
         $fromClause = array_diff($fromClause, array(''));
 
@@ -816,11 +817,8 @@ class BasePeer
             }
         }
 
-        // from / join tables quoted if it is necessary
-        if ($db->useQuoteIdentifier()) {
-            $fromClause = array_map(array($db, 'quoteIdentifierTable'), $fromClause);
-            $joinClause = $joinClause ? $joinClause : array_map(array($db, 'quoteIdentifierTable'), $joinClause);
-        }
+        $fromClause = self::useQuoteIndetifiers($db, $fromClause);
+        $joinClause = self::useQuoteIndetifiers($db, $joinClause);
 
         // add subQuery to From after adding quotes
         foreach ($criteria->getSelectQueries() as $subQueryAlias => $subQueryCriteria) {
@@ -853,6 +851,23 @@ class BasePeer
         return $sql;
     }
 
+    /**
+     * Quote indetifiers when needed.
+     * 
+     * @param DBAdapter $db
+     * @param array $indent
+     * @return string
+     */
+    private static function useQuoteIndetifiers(DBAdapter $db, array $indent)
+    {
+            // from / join tables quoted if it is necessary
+        if ($db->useQuoteIdentifier()) {
+            $indent = array_map(array($db, 'quoteIdentifierTable'), $indent);
+        }
+        
+        return $indent;
+    }
+    
     /**
      * Builds a params array, like the kind populated by Criterion::appendPsTo().
      * This is useful for building an array even when it is not using the appendPsTo() method.
