@@ -137,6 +137,8 @@ class PropelMigrationManager
                 $stmt->execute();
                 if ($migrationTimestamp = $stmt->fetchColumn()) {
                     $migrationTimestamps[$name] = $migrationTimestamp;
+                } else {
+                    $migrationTimestamps[$name] = 0;
                 }
             } catch (PDOException $e) {
                 $this->createMigrationTable($name);
