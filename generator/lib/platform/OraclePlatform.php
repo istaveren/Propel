@@ -154,7 +154,7 @@ CREATE SEQUENCE %s
 
             return sprintf($pattern,
                 $this->quoteIdentifier($this->getSequenceName($table)),
-                $this->getSequenceCache($table)
+                $this->getSequenceCache($table) ? $this->getSequenceCache($table) : 20
             );
         }
     }
