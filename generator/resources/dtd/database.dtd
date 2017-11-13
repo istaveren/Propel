@@ -75,6 +75,7 @@
         <!ATTLIST id-method-parameter
                 name CDATA "default"
                 value CDATA #REQUIRED
+                cache CDATA "20"
                 >
 
         <!ELEMENT column ((inheritance|vendor)*)>

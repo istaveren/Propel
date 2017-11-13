@@ -24,6 +24,7 @@ class IdMethodParameter extends XMLElement
 
     private $name;
     private $value;
+    private $cache;
 
     /**
      * @var Table
@@ -39,6 +40,7 @@ class IdMethodParameter extends XMLElement
     {
         $this->name = $this->getAttribute("name");
         $this->value = $this->getAttribute("value");
+        $this->cache = $this->getAttribute("cache");
     }
 
     /**
@@ -71,6 +73,22 @@ class IdMethodParameter extends XMLElement
     public function setValue($value)
     {
         $this->value = $value;
+    }
+
+    /**
+     * Get the parameter cache
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+
+    /**
+     * Set the parameter cache
+     */
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
     }
 
     /**
@@ -107,6 +125,9 @@ class IdMethodParameter extends XMLElement
         $paramNode = $node->appendChild($doc->createElement('id-method-parameter'));
         if ($this->getName()) {
             $paramNode->setAttribute('name', $this->getName());
+        }
+        if ($this->getCache()) {
+            $paramNode->setAttribute('cache', $this->getCache());
         }
         $paramNode->setAttribute('value', $this->getValue());
     }

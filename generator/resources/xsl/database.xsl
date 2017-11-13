@@ -205,6 +205,9 @@
             <xsl:if test='not(boolean(@name))'>
                 <xsl:attribute name='name'>default</xsl:attribute>
             </xsl:if>
+            <xsl:if test='not(boolean(@cache))'>
+                <xsl:attribute name='primaryKey'>20</xsl:attribute>
+            </xsl:if>
             <xsl:apply-templates select='@*'/>
         </id-method-parameter>
     </xsl:template>

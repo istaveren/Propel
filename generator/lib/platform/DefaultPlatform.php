@@ -235,6 +235,29 @@ class DefaultPlatform implements PropelPlatformInterface
     }
 
     /**
+     * Gets the cache size to use for creating a sequence for a table.
+     *
+     * This will get the cache size specified in an id-method-parameter tag,
+     * if specified.
+     *
+     * @param Table $table
+     *
+     * @return int cache size
+     */
+    public function getSequenceCache(Table $table)
+    {
+        $result = 20;
+        if ($table->getIdMethod() == IDMethod::NATIVE) {
+            $idMethodParams = $table->getIdMethodParameters();
+            if ($idMethodParams) {
+                $result = $idMethodParams[0]->getCache();
+            }
+        }
+
+        return $result;
+    }
+    
+    /**
      * Builds the DDL SQL to add the tables of a database
      * together with index and foreign keys
      *

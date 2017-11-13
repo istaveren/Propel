@@ -149,11 +149,12 @@ ALTER SESSION SET NLS_TIMESTAMP_FORMAT='YYYY-MM-DD HH24:MI:SS';
         if ($table->getIdMethod() == "native") {
             $pattern = "
 CREATE SEQUENCE %s
-    INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE NOCACHE ORDER;
+    INCREMENT BY 1 START WITH 1 NOMAXVALUE NOCYCLE CACHE %s ORDER;
 ";
 
             return sprintf($pattern,
-                $this->quoteIdentifier($this->getSequenceName($table))
+                $this->quoteIdentifier($this->getSequenceName($table)),
+                $this->getSequenceCache($table)
             );
         }
     }
