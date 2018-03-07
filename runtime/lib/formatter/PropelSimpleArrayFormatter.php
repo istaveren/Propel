@@ -65,7 +65,9 @@ class PropelSimpleArrayFormatter extends PropelFormatter
         if (count($columnNames) > 1 && count($row) > 1) {
             $finalRow = array();
             foreach ($row as $index => $value) {
-                $finalRow[str_replace('"', '', $columnNames[$index])] = $value;
+                if (isset( $columnNames[$index])) {
+                    $finalRow[str_replace('"', '', $columnNames[$index])] = $value;
+                }
             }
         } else {
             $finalRow = $row[0];
