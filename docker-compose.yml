@@ -1,0 +1,63 @@
+version: '3'
+services:
+  propel-php56-cli:
+    build:
+      context: ./.docker
+      dockerfile: ./Dockerfile-php5.6-cli
+    image: propel_php56:v0.1.3
+    volumes:
+      - "./:/usr/src/myapp"
+    working_dir: "/usr/src/myapp"
+#    environment:
+#      DB_HOST: mysql
+#      DB_USER: root
+#      DB_PASSWORD: toor
+#      DB_NAME: propel
+#      DB_DRIVER: mysql
+#    links:
+#      - mysql
+  mysql:
+    image: "mysql:5.5"
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: propel
+      MYSQL_USER: propel
+      MYSQL_PASSWORD: propel
+    ports:
+      - "8989:3306"
+    volumes:
+      - "./data/db/mysql:/var/lib/mysql"
+      - "./.docker/mysql_schemas:/docker-entrypoint-initdb.d"
+  pgsql:
+    image: postgres:9.3-alpine
+    ports:
+      - "8990:5432"
+    volumes:
+      - "./.docker/mysql_schemas:/docker-entrypoint-initdb.d"
+  propel-php56-reset-tests:
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: toor
+      DB_NAME: propel
+      DB_DRIVER: mysql
+    build:
+      context: ./.docker
+      dockerfile: ./Dockerfile-php5.6-reset-tests
+    image: propel_php56_reset_tests:v0.1.0
+    volumes:
+      - "./:/usr/src/myapp"
+    working_dir: "/usr/src/myapp"
+    depends_on:
+      - mysql
+      - propel-php56-cli
+    links:
+      - mysql
+  propel-php56-shell:
+    build:
+      context: ./.docker
+      dockerfile: ./Dockerfile-php5.6-shell
+    image: propel_php56_shell:v0.0.3
+    volumes:
+      - "./:/usr/src/myapp"
+    working_dir: "/usr/src/myapp"
