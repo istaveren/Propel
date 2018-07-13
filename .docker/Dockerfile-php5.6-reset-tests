@@ -1,0 +1,4 @@
+FROM propel_php56:v0.1.3
+RUN apk update && apk add bash
+#WORKDIR "/code"
+ENTRYPOINT ["sh", "./test/reset_tests.sh"]

@@ -1,0 +1,3 @@
+FROM propel_php56:v0.1.3
+#WORKDIR "/code"
+ENTRYPOINT ["bash"]
