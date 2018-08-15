@@ -1,8 +1,0 @@
-FROM php:5.6-alpine3.7
-RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
-RUN apk update && apk add postgresql-dev bash \
-    && docker-php-ext-install mysql pgsql mysqli pdo pdo_mysql pdo_pgsql
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
-RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit-php.ini \
-    && echo "date.timezone = Europe/Berlin" > /usr/local/etc/php/conf.d/date-timezone.ini
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
