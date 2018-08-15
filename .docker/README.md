@@ -10,9 +10,6 @@ $ docker-compose up
 
 Run tests 
 ```bash
-# Log in to the container 
-$ docker-compose run propel_bash
-
-$ ./test/reset_tests.sh
-$ ./vendor/bin/phpunit
+$ docker-compose run propel_bash "./test/reset_tests.sh"
+$ docker-compose run propel_bash "./vendor/bin/phpunit"
 ```
