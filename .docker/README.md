@@ -1,9 +1,18 @@
 Build image
 ```bash
-docker build -t propel-docker:0.1.0 .
+$ docker-compose build
 ```
 
-Run tests in docker
+Run containers 
 ```bash
-docker run -it --rm -v `pwd`:/usr/src/myapp -w /usr/src/myapp propel-docker "./vendor/bin/phpunit"
+$ docker-compose up
+```
+
+Run tests 
+```bash
+# Log in to the container 
+$ docker-compose run propel_bash
+
+$ ./test/reset_tests.sh
+$ ./vendor/bin/phpunit
 ```
