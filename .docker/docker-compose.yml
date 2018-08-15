@@ -18,3 +18,9 @@ services:
     volumes:
       - "../:/usr/src/myapp"
     working_dir: "/usr/src/myapp"
+  php_56_composer:
+    image: "php56-alpine-composer:v0.1.0"
+    build: "./php5.6.37-alpine-composer"
+    volumes:
+      - "../:/app"
+    command: ["install"]
