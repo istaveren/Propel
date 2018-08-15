@@ -16,8 +16,8 @@ services:
     image: "php56-alpine-bash:v0.1.0"
     build: "./php5.6.37-alpine-bash/"
     volumes:
-      - "../:/usr/src/myapp"
-    working_dir: "/usr/src/myapp"
+      - "../:/usr/src/propel"
+    working_dir: "/usr/src/propel"
   php_56_composer:
     image: "php56-alpine-composer:v0.1.0"
     build: "./php5.6.37-alpine-composer"
