@@ -16,3 +16,8 @@ $ docker-compose -f docker-compose.yml -f docker-compose-php56.yml run propel_56
 $ docker-compose -f docker-compose.yml -f docker-compose-php56.yml run propel_56_bash "./vendor/bin/phpunit"
 ```
 
+#### Generate test coverage report
+```bash
+$ docker-compose -f docker-compose.yml -f docker-compose-php56.yml run propel_56_bash 
+bash-4.4# ./vendor/bin/phpunit --coverage-html=coverage56/
+```
