@@ -1,0 +1,14 @@
+version: '3'
+services:
+  propel_72_bash:
+    image: "php72-alpine-bash:v0.1.0"
+    build: "./php7.2.8-alpine-bash/"
+    volumes:
+      - "../:/usr/src/propel"
+    working_dir: "/usr/src/propel"
+  php_72_composer:
+    image: "php72-alpine-composer:v0.1.0"
+    build: "./php7.2.8-alpine-composer"
+    volumes:
+      - "../:/app"
+    command: ["install"]
