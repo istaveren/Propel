@@ -19,4 +19,5 @@ RUN pecl install xdebug-2.5.4 \
 RUN echo "memory_limit=2G" > /usr/local/etc/php/conf.d/memory-limit-php.ini \
     && echo "date.timezone = Europe/Berlin" > /usr/local/etc/php/conf.d/date-timezone.ini
 
+ENTRYPOINT [""]
 CMD ["bash"]

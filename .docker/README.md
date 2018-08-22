@@ -1,15 +1,18 @@
-Build image
+## Steps for PHP 5.6
+
+#### Build image
 ```bash
-$ docker-compose build
+$ docker-compose -f docker-compose.yml -f docker-compose-php56.yml build
 ```
 
-Run containers 
+#### Run containers 
 ```bash
-$ docker-compose up
+$ docker-compose -f docker-compose.yml -f docker-compose-php56.yml up
 ```
 
-Run tests 
+#### Run tests 
 ```bash
-$ docker-compose run propel_bash "./test/reset_tests.sh"
-$ docker-compose run propel_bash "./vendor/bin/phpunit"
+$ docker-compose -f docker-compose.yml -f docker-compose-php56.yml run propel_56_bash "./test/reset_tests.sh"
+$ docker-compose -f docker-compose.yml -f docker-compose-php56.yml run propel_56_bash "./vendor/bin/phpunit"
 ```
+

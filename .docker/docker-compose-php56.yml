@@ -1,0 +1,14 @@
+version: '3'
+services:
+  propel_56_bash:
+    image: "php56-alpine-bash:v0.1.0"
+    build: "./php5.6.37-alpine-bash/"
+    volumes:
+      - "../:/usr/src/propel"
+    working_dir: "/usr/src/propel"
+  php_56_composer:
+    image: "php56-alpine-composer:v0.1.0"
+    build: "./php5.6.37-alpine-composer"
+    volumes:
+      - "../:/app"
+    command: ["install"]
