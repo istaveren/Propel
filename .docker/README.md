@@ -46,3 +46,10 @@ $ docker-compose -f docker-compose.yml -f docker-compose-php72.yml run propel_72
 $ docker-compose -f docker-compose.yml -f docker-compose-php72.yml run propel_72_bash 
 bash-4.4# ./vendor/bin/phpunit --coverage-html=coverage72/
 ```
+
+## Remove all your docker images and containers
+This was helpful to me to test the craziness... It will nuke all  your docker images and containers tho haha
+```bash
+$ docker rm $(docker ps -a -q)
+$ docker rmi $(docker images -q)
+```
