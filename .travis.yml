@@ -2,18 +2,22 @@ language: php
 
 branches:
   only:
-    - 1.6
     - master
-    - gh-pages
 
 php:
   - 5.3
   - 5.4
   - 5.5
   - hhvm
+  - 7.1
+  - 7.2
 
 env:
   - DB=mysql DB_USER=root
+
+matrix:
+  allow_failures:
+    - php: 5.5
 
 before_script:
   # MySQL
@@ -30,4 +34,5 @@ script: phpunit
 
 matrix:
   allow_failures:
+    - php: 5.5
     - php: hhvm
