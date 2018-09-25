@@ -1,6 +1,8 @@
 <?php
 
-class CustomPlatformTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CustomPlatformTest extends TestCase
 {
     /**
      * @var GeneratorConfig

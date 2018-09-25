@@ -9,6 +9,8 @@
  * @license    MIT License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests for More relations
  *
@@ -16,7 +18,7 @@
  * @version		$Revision$
  * @package		generator.builder.om
  */
-class GeneratedObjectMoreRelationTest extends PHPUnit_Framework_TestCase
+class GeneratedObjectMoreRelationTest extends TestCase
 {
 
     /**
