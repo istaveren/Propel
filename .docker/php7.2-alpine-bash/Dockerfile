@@ -1,4 +1,4 @@
-FROM php:7.2.8-alpine
+FROM php:7.2-alpine
 
 RUN apk --no-cache add autoconf \
     dpkg-dev dpkg \
@@ -19,10 +19,13 @@ RUN docker-php-ext-install \
     pdo_mysql \
     pdo_pgsql
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+#RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN echo "memory_limit=2G" > /usr/local/etc/php/conf.d/memory-limit-php.ini \
     && echo "date.timezone = Europe/Berlin" > /usr/local/etc/php/conf.d/date-timezone.ini
+
+RUN adduser -D -u 1000 app
+USER app
 
 ENTRYPOINT [""]
 CMD ["bash"]

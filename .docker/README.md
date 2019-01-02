@@ -7,7 +7,7 @@ $ docker-compose -f docker-compose.yml -f docker-compose-php56.yml build
 
 #### Run containers 
 ```bash
-$ docker-compose -f docker-compose.yml -f docker-compose-php56.yml up
+$ docker-compose -f docker-compose.yml -f docker-compose-php56.yml up -d
 ```
 
 #### Run tests 
@@ -32,7 +32,7 @@ $ docker-compose -f docker-compose.yml -f docker-compose-php72.yml build
 
 #### Run containers 
 ```bash
-$ docker-compose -f docker-compose.yml -f docker-compose-php72.yml up
+$ docker-compose -f docker-compose.yml -f docker-compose-php72.yml up -d
 ```
 
 #### Run tests 
@@ -47,8 +47,13 @@ $ docker-compose -f docker-compose.yml -f docker-compose-php72.yml run propel_72
 bash-4.4# ./vendor/bin/phpunit --coverage-html=coverage72/
 ```
 
+## Stop and remove all containers.
+```bash
+$ docker-compose down
+```
+
 ## Remove all your docker images and containers
-This was helpful to me to test the craziness... It will nuke all  your docker images and containers tho haha
+This was helpful to me to test the craziness... It will nuke all your docker images and containers tho haha
 ```bash
 $ docker rm $(docker ps -a -q)
 $ docker rmi $(docker images -q)
