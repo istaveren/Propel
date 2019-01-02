@@ -374,7 +374,7 @@ CREATE %sINDEX %s ON %s (%s)%s;
         $snippet = "
 \$stmt = %s->query('SELECT %s.nextval FROM dual');
 \$row = \$stmt->fetch(PDO::FETCH_NUM);
-%s = \$row[0];";
+%s = (int) \$row[0];";
         $script = sprintf($snippet,
             $connectionVariableName,
             $sequenceName,

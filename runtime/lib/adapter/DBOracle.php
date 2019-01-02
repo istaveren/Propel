@@ -161,7 +161,7 @@ class DBOracle extends DBAdapter
         $stmt = $con->query("SELECT " . $name . ".nextval FROM dual");
         $row = $stmt->fetch(PDO::FETCH_NUM);
 
-        return $row[0];
+        return (int) $row[0];
     }
 
     /**
