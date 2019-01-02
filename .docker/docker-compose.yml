@@ -1,0 +1,14 @@
+version: '3'
+services:
+  mysql:
+      image: "mysql:5.5"
+      environment:
+        MYSQL_ROOT_PASSWORD: toor
+        MYSQL_DATABASE: propel
+        MYSQL_USER: propel
+        MYSQL_PASSWORD: propel
+      ports:
+        - "8989:3306"
+      volumes:
+        - "./data/db/mysql:/var/lib/mysql"
+        - "./mysql_schemas:/docker-entrypoint-initdb.d"

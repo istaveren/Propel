@@ -14,7 +14,7 @@
                 <adapter>pgsql</adapter>
                 <connection>
                     <classname>DebugPDO</classname>
-                    <dsn>pgsql:dbname=reverse_bookstore</dsn>
+                    <dsn>pgsql:dbname=reverse_bookstore;host=pgsql</dsn>
                     <!--
                     For MySQL and Oracle you must specify username + password separate from DSN:
                     <user>bookstore</user>
