@@ -75,4 +75,25 @@ class TypeValidator implements BasicValidator
                 break;
         }
     }
+    
+    /**
+     * Determine whether or not a variable can be counted.
+     *
+     * In PHP 7.3, a new is_countable() is available however it's implementation
+     * only looks to see if the object is an array or an instance of Countable.
+     * This is not enough to satisfy the objects returned within the Symfony/VA
+     * code.  Therefore, we have to look for IteratoAggregate as well as Countable.
+     *
+     * @see https://wiki.php.net/rfc/is-countable RFC for PHP 7.3 is_countable().
+     *
+     * @param  $var
+     *
+     * @return bool
+     */
+    
+    public static function isCountable($var){
+        return \is_array($var)
+                   || $var instanceof Countable
+                   || $var instanceof IteratorAggregate;
+    }
 }

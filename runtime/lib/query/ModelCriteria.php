@@ -525,8 +525,8 @@ class ModelCriteria extends Criteria
      */
     public function select($columnArray)
     {
-        if ($columnArray == '' || (is_array($columnArray) && !count($columnArray))) {
-            throw new PropelException('You must ask for at least one column');
+        if ($columnArray == '' || (TypeValidator::isCountable($columnArray) && !count($columnArray))) {
+            throw new PropelException('You must ask for at least one column: '.get_class($columnArray));
         }
 
         if ($columnArray == '*') {
@@ -1535,7 +1535,7 @@ class ModelCriteria extends Criteria
             || $this->getLimit()
             || $this->getHaving()
             || in_array(Criteria::DISTINCT, $this->getSelectModifiers())
-            || count($this->selectQueries) > 0;
+            || (TypeValidator::isCountable($this->selectQueries) && count($this->selectQueries) > 0);
 
         $params = array();
         if ($needsComplexCount) {
@@ -1638,7 +1638,7 @@ class ModelCriteria extends Criteria
      */
     public function delete($con = null)
     {
-        if (count($this->getMap()) == 0) {
+        if (TypeValidator::isCountable($this->getMap()) && count($this->getMap()) == 0) {
             throw new PropelException('delete() expects a Criteria with at least one condition. Use deleteAll() to delete all the rows of a table');
         }
 
@@ -1774,7 +1774,7 @@ class ModelCriteria extends Criteria
         if (!is_array($values)) {
             throw new PropelException('set() expects an array as first argument');
         }
-        if (count($this->getJoins())) {
+        if (TypeValidator::isCountable($this-getJoins()) && count($this->getJoins())) {
             throw new PropelException('set() does not support multitable updates, please do not use join()');
         }
 
@@ -1825,7 +1825,7 @@ class ModelCriteria extends Criteria
                 }
             }
             $objects->save($con);
-            $affectedRows = count($objects);
+            $affectedRows = TypeValidator::isCountable($objects)? count($objects) : 0;
         } else {
 
             // update rows in a single query
