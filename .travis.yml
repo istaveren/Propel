@@ -2,23 +2,26 @@ language: php
 
 branches:
   only:
-    - 1.6
     - master
-    - gh-pages
 
 php:
-  - 5.3
   - 5.4
   - 5.5
+  - 5.6
   - hhvm
+  - 7.0
+  - 7.1
+  - 7.2
 
 env:
   - DB=mysql DB_USER=root
 
 before_script:
   # MySQL
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'SET FOREIGN_KEY_CHECKS = 0; DROP DATABASE IF EXISTS test; DROP SCHEMA IF EXISTS second_hand_books; DROP SCHEMA IF EXISTS contest; DROP DATABASE IF EXISTS reverse_bookstore; DROP SCHEMA IF EXISTS bookstore_schemas; SET FOREIGN_KEY_CHECKS = 1;'; fi"
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE test; CREATE SCHEMA bookstore_schemas; CREATE SCHEMA contest; CREATE SCHEMA second_hand_books; CREATE DATABASE reverse_bookstore;'; fi"
+  - echo -e "[client]\ndefault-character-set=utf8mb4\n[mysql]\ndefault-character-set=utf8mb4\n[mysqld]\ncollation-server=utf8mb4_unicode_ci\ninit-connect='SET NAMES utf8mb4'\ncharacter-set-server=utf8mb4" | sudo tee /etc/mysql/conf.d/utf8.cnf
+  - sudo service mysql restart && ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
+  - sh -c "[ '$DB' = 'mysql' ] && mysql -e 'SET FOREIGN_KEY_CHECKS = 0; DROP DATABASE IF EXISTS test; DROP SCHEMA IF EXISTS second_hand_books; DROP SCHEMA IF EXISTS contest; DROP DATABASE IF EXISTS reverse_bookstore; DROP SCHEMA IF EXISTS bookstore_schemas; SET FOREIGN_KEY_CHECKS = 1;'"
+  - sh -c "[ '$DB' = 'mysql' ] && mysql -e 'CREATE DATABASE test; CREATE SCHEMA bookstore_schemas; CREATE SCHEMA contest; CREATE SCHEMA second_hand_books; CREATE DATABASE reverse_bookstore;'"
 
   # Composer
   - wget http://getcomposer.org/composer.phar
@@ -30,4 +33,6 @@ script: phpunit
 
 matrix:
   allow_failures:
+    - php: 5.4
+    - php: 5.5
     - php: hhvm

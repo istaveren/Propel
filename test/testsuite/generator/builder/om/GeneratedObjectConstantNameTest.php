@@ -1,9 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../../../../../generator/lib/util/PropelQuickBuilder.php';
-require_once dirname(__FILE__) . '/../../../../../runtime/lib/adapter/DBAdapter.php';
-require_once dirname(__FILE__) . '/../../../../../runtime/lib/adapter/DBSQLite.php';
-require_once dirname(__FILE__) . '/../../../../../runtime/lib/connection/PropelPDO.php';
-require_once dirname(__FILE__) . '/../../../../../runtime/lib/Propel.php';
 /**
  * This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
@@ -11,6 +6,13 @@ require_once dirname(__FILE__) . '/../../../../../runtime/lib/Propel.php';
  *
  * @license    MIT License
  */
+require_once dirname(__FILE__) . '/../../../../../generator/lib/util/PropelQuickBuilder.php';
+require_once dirname(__FILE__) . '/../../../../../runtime/lib/adapter/DBAdapter.php';
+require_once dirname(__FILE__) . '/../../../../../runtime/lib/adapter/DBSQLite.php';
+require_once dirname(__FILE__) . '/../../../../../runtime/lib/connection/PropelPDO.php';
+require_once dirname(__FILE__) . '/../../../../../runtime/lib/Propel.php';
+
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for generated constants' names.
@@ -18,7 +20,7 @@ require_once dirname(__FILE__) . '/../../../../../runtime/lib/Propel.php';
  * @author Boban Acimovic <boban.acimovic@gmail.com>
  * @package generator.builder.om
  */
-class GeneratedObjectConstantNameTest extends PHPUnit_Framework_TestCase
+class GeneratedObjectConstantNameTest extends TestCase
 {
     /**
      * Test normal string as single inheritance key

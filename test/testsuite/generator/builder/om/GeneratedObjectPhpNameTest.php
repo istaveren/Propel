@@ -8,13 +8,15 @@
  * @license    MIT License
  */
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Tests for changed php names in relations.
  *
  * @author Toni Uebernickel <tuebernickel@gmail.com>
  * @package generator.builder.om
  */
-class GeneratedObjectPhpNameTest extends PHPUnit_Framework_TestCase
+class GeneratedObjectPhpNameTest extends TestCase
 {
     public function setUp()
     {
