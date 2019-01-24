@@ -87,10 +87,10 @@ class SortableBehavior extends Behavior
     public function generateScopePhp()
     {
 
-        $methodSignature = '';
-        $paramsDoc       = '';
-        $buildScope      = '';
-        $buildScopeVars  = '';
+        $methodSignature = [];
+        $paramsDoc       = [];
+        $buildScope      = [];
+        $buildScopeVars  = [];
 
         if ($this->hasMultipleScopes()) {
 
