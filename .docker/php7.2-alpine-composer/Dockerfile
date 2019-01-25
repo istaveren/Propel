@@ -18,6 +18,9 @@ RUN apk add --no-cache --virtual .build-deps zlib-dev \
 ADD getComposer.sh /tmp/.
 RUN /tmp/getComposer.sh
 
+RUN pear config-set http_proxy $http_proxy && \
+    pear config-set http_proxy $http_proxy 
+
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 WORKDIR /app

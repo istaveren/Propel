@@ -93,14 +93,7 @@ class SortableBehavior extends Behavior
         $buildScopeVars  = [];
 
         if ($this->hasMultipleScopes()) {
-
-            $methodSignature = array();
-            $buildScope      = array();
-            $buildScopeVars  = array();
-            $paramsDoc       = array();
-
             foreach ($this->getScopes() as $idx => $scope) {
-
                 $column = $this->table->getColumn($scope);
                 $param  = '$scope'.$column->getPhpName();
 
@@ -116,9 +109,6 @@ class SortableBehavior extends Behavior
 
             $methodSignature = implode(', ', $methodSignature);
             $paramsDoc       = implode("\n", $paramsDoc);
-            $buildScope      = "\n".implode('', $buildScope)."\n";
-            $buildScopeVars  = "\n".implode('', $buildScopeVars)."\n";
-
         } elseif ($this->useScope()) {
             $methodSignature = '$scope';
             if ($column = $this->table->getColumn($this->getParameter('scope_column'))) {
@@ -128,6 +118,8 @@ class SortableBehavior extends Behavior
                 $paramsDoc .= ' * @param '.$column->getPhpType().' $scope Scope to determine which objects node to return';
             }
         }
+        $buildScope      = "\n".implode('', $buildScope)."\n";
+        $buildScopeVars  = "\n".implode('', $buildScopeVars)."\n";
 
         return array($methodSignature, $paramsDoc, $buildScope, $buildScopeVars);
     }

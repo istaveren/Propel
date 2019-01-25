@@ -19,7 +19,9 @@ RUN docker-php-ext-install \
     pdo_mysql \
     pdo_pgsql
 
-#RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN pear config-set http_proxy $http_proxy && \
+    pear config-set http_proxy $http_proxy && \
+    pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN echo "memory_limit=2G" > /usr/local/etc/php/conf.d/memory-limit-php.ini \
     && echo "date.timezone = Europe/Berlin" > /usr/local/etc/php/conf.d/date-timezone.ini

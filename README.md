@@ -20,6 +20,9 @@ Propel has some nice features you should know about:
 
 Read the [Propel documentation](http://propelorm.org/Propel/).
 
+## Testing
+
+To run the test look at <.docker/README.md>
 
 ## License ##
 

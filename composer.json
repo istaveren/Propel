@@ -19,7 +19,7 @@
   },
   "require-dev": {
     "pear-pear.php.net/PEAR_PackageFileManager2": "@stable",
-     "phpunit/phpunit": "~4"
+    "phpunit/phpunit": "5.*"
   },
   "extra": {
     "branch-alias": {
