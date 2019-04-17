@@ -591,6 +591,45 @@ class Propel
     }
 
     /**
+     * Lookup if there is an opened PDO connection
+     *
+     * @param string $name The datasource name that is used to look up the DSN from the runtime configuration file.
+     * @param string $mode The connection mode (this applies to replication systems).
+     *
+     * @return bool
+     */
+    public static function hasConnection($name, $mode = Propel::CONNECTION_WRITE)
+    {
+        // IF a WRITE-mode connection was requested
+        // or Propel is configured to always use the master connection
+        // THEN return the master connection.
+        return ($mode != Propel::CONNECTION_READ || self::$forceMasterConnection) ?
+            self::hasMasterConnection($name) : self::hasSlaveConnection($name);
+    }
+
+    /**
+     * Lookup if there is an opened PDO master connection.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public static function hasMasterConnection($name)
+    {
+        return isset(self::$connectionMap[$name]['master']);
+    }
+
+    /**
+     * Lookup if there is an opened PDO slave connection.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public static function hasSlaveConnection($name)
+    {
+        return isset(self::$connectionMap[$name]['slave']);
+    }
+
+    /**
      * Gets an already-opened read PDO connection or opens a new one for passed-in db name.
      *
      * @param string $name The datasource name that is used to look up the DSN

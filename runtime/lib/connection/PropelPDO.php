@@ -446,25 +446,23 @@ class PropelPDO extends PDO
      *
      * @see       http://php.net/manual/en/pdo.query.php for a description of the possible parameters.
      *
+     * @param string $statement sql query
+     * @param int    $mode      PDO query() mode
+     * @param int    $p1        PDO query() first parameter
+     * @param int    $p2        PDO query() second parameter
      * @return PDOStatement
      */
-    public function query()
+    public function query($statement, $mode=null, $p1=null, $p2=null)
     {
         if ($this->useDebug) {
             $debug = $this->getDebugSnapshot();
         }
 
-        $args = func_get_args();
-        if (version_compare(PHP_VERSION, '5.3', '<')) {
-            $return = call_user_func_array(array($this, 'parent::query'), $args);
-        } else {
-            $return = call_user_func_array('parent::query', $args);
-        }
+        $return = parent::query($statement, $mode, $p1, $p2);
 
         if ($this->useDebug) {
-            $sql = $args[0];
-            $this->log($sql, null, __METHOD__, $debug);
-            $this->setLastExecutedQuery($sql);
+            $this->log($statement, null, __METHOD__, $debug);
+            $this->setLastExecutedQuery($statement);
             $this->incrementQueryCount();
         }
 

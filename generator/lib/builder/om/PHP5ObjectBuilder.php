@@ -1415,9 +1415,9 @@ abstract class " . $this->getClassname() . " extends " . $parentClass . " ";
         }
 
         if ($col->getType() === PropelTypes::CLOB && $platform instanceof OraclePlatform) {
-            // PDO_OCI returns a stream for CLOB objects, while other PDO adapters return a string...
+            // Using https://github.com/yajra/pdo-via-oci8 that returns the string
             $script .= "
-            \$this->$clo = stream_get_contents(\$row[0]);";
+            \$this->$clo = \$row[0];";
         } elseif ($col->isLobType() && !$platform->hasStreamBlobImpl()) {
             $script .= "
             if (\$row[0] !== null) {
@@ -2176,9 +2176,9 @@ abstract class " . $this->getClassname() . " extends " . $parentClass . " ";
             if (!$col->isLazyLoad()) {
                 $clo = strtolower($col->getName());
                 if ($col->getType() === PropelTypes::CLOB_EMU && $this->getPlatform() instanceof OraclePlatform) {
-                    // PDO_OCI returns a stream for CLOB objects, while other PDO adapters return a string...
+                    // Using https://github.com/yajra/pdo-via-oci8 that return the string
                     $script .= "
-            \$this->$clo = stream_get_contents(\$row[\$startcol + $n]);";
+            \$this->$clo = \$row[\$startcol + $n];";
                 } elseif ($col->isLobType() && !$platform->hasStreamBlobImpl()) {
                     $script .= "
             if (\$row[\$startcol + $n] !== null) {

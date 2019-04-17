@@ -115,6 +115,21 @@ class DefaultPlatform implements PropelPlatformInterface
 
         // Boolean is a bit special, since typically it must be mapped to INT type.
         $this->schemaDomainMap[PropelTypes::BOOLEAN] = new Domain(PropelTypes::BOOLEAN, "INTEGER");
+
+        file_put_contents($this->getPropelPDOlocation(),
+        preg_replace('/class PropelPDO extends .*/',
+                'class PropelPDO extends PDO',
+                file_get_contents($this->getPropelPDOlocation())));
+    }
+
+    /**
+     * Get the file name for PropelPDO
+     *
+     * @return string
+     */
+    protected function getPropelPDOlocation()
+    {
+        return __DIR__.'/../../../runtime/lib/connection/PropelPDO.php';
     }
 
     /**
