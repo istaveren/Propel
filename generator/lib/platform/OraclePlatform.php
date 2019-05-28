@@ -31,7 +31,12 @@ class OraclePlatform extends DefaultPlatform
         $propelPDO = preg_replace('/class PropelPDO extends .*/',
                 'class PropelPDO extends \Yajra\Pdo\Oci8',
                 file_get_contents($this->getPropelPDOlocation()));
-        file_put_contents($this->getPropelPDOlocation(), $propelPDO);
+        @file_put_contents($this->getPropelPDOlocation(), $propelPDO);
+
+        @file_put_contents($this->getDebugPDOStatementlocation(),
+        preg_replace(['/class DebugPDOStatement extends .*/', '/\w+ function __construct\(PropelPDO \$pdo\)/' ],
+                ['class DebugPDOStatement extends Yajra\Pdo\Oci8\Statement', 'public function __construct(PropelPDO $pdo)' ],
+                file_get_contents($this->getDebugPDOStatementlocation())));
 
         $this->schemaDomainMap[PropelTypes::BOOLEAN] = new Domain(PropelTypes::BOOLEAN_EMU, "NUMBER", "1", "0");
         $this->schemaDomainMap[PropelTypes::CLOB] = new Domain(PropelTypes::CLOB_EMU, "CLOB");

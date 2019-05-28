@@ -23,6 +23,7 @@ require_once dirname(__FILE__) . '/../model/PropelTypes.php';
  */
 class DefaultPlatform implements PropelPlatformInterface
 {
+    const CONNECTION_DIR = __DIR__.'/../../../runtime/lib/connection/';
 
     /**
      * Mapping from Propel types to Domain objects.
@@ -116,10 +117,14 @@ class DefaultPlatform implements PropelPlatformInterface
         // Boolean is a bit special, since typically it must be mapped to INT type.
         $this->schemaDomainMap[PropelTypes::BOOLEAN] = new Domain(PropelTypes::BOOLEAN, "INTEGER");
 
-        file_put_contents($this->getPropelPDOlocation(),
+        @file_put_contents($this->getPropelPDOlocation(),
         preg_replace('/class PropelPDO extends .*/',
                 'class PropelPDO extends PDO',
                 file_get_contents($this->getPropelPDOlocation())));
+        @file_put_contents($this->getDebugPDOStatementlocation(),
+        preg_replace([ '/class DebugPDOStatement extends .*/', '/\w+ function __construct\(PropelPDO \$pdo\)/' ],
+                [ 'class DebugPDOStatement extends PDOStatement', 'protected function __construct(PropelPDO $pdo)' ],
+                file_get_contents($this->getDebugPDOStatementlocation())));
     }
 
     /**
@@ -129,7 +134,17 @@ class DefaultPlatform implements PropelPlatformInterface
      */
     protected function getPropelPDOlocation()
     {
-        return __DIR__.'/../../../runtime/lib/connection/PropelPDO.php';
+        return self::CONNECTION_DIR.'PropelPDO.php';
+    }
+
+    /**
+     * Get the file name for DebugPDOStatement
+     *
+     * @return string
+     */
+    protected function getDebugPDOStatementlocation()
+    {
+        return self::CONNECTION_DIR.'DebugPDOStatement.php';
     }
 
     /**

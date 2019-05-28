@@ -21,6 +21,15 @@
 class DebugPDOStatement extends PDOStatement
 {
     /**
+     * The query used.
+     *
+     * As the queryString is read only we can't overwrite it so this copy is needed.
+     * 
+     * @var string 
+     */
+    protected $query;
+
+    /**
      * The PDO connection from which this instance was created.
      *
      * @var       PropelPDO
@@ -57,6 +66,9 @@ class DebugPDOStatement extends PDOStatement
      */
     protected function __construct(PropelPDO $pdo)
     {
+        if ($this instanceof Yajra\Pdo\Oci8\Statement) {
+            parent::__construct($pdo);
+        }
         $this->pdo = $pdo;
     }
 
@@ -67,7 +79,7 @@ class DebugPDOStatement extends PDOStatement
      */
     public function getExecutedQueryString(array $values = array())
     {
-        $sql = $this->queryString;
+        $sql = $this->queryString ?: $this->query;
         $boundValues = empty($values) ? $this->boundValues : $values;
         $matches = array();
         if (preg_match_all('/(:p[0-9]+\b)/', $sql, $matches)) {
@@ -86,6 +98,19 @@ class DebugPDOStatement extends PDOStatement
         }
 
         return $sql;
+    }
+
+    /**
+     * Prepare the statement.
+     *
+     * @param resource $dbh
+     * @param string $statement
+     * @throws Oci8Exception
+     */
+    public function parse($dbh, $statement)
+    {
+        $this->query = $statement;
+        parent::parse($dbh, $statement);
     }
 
     /**
