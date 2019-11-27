@@ -36,6 +36,7 @@ class MysqlPlatform extends DefaultPlatform
     protected function initialize()
     {
         parent::initialize();
+        $this->extendPdoClass('PDO', 'PDOStatement', 'protected');
         $this->setSchemaDomainMapping(new Domain(PropelTypes::BOOLEAN, "TINYINT", 1));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::NUMERIC, "DECIMAL"));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::LONGVARCHAR, "TEXT"));

@@ -116,15 +116,34 @@ class DefaultPlatform implements PropelPlatformInterface
 
         // Boolean is a bit special, since typically it must be mapped to INT type.
         $this->schemaDomainMap[PropelTypes::BOOLEAN] = new Domain(PropelTypes::BOOLEAN, "INTEGER");
+    }
 
-        @file_put_contents($this->getPropelPDOlocation(),
-        preg_replace('/class PropelPDO extends .*/',
-                'class PropelPDO extends PDO',
-                file_get_contents($this->getPropelPDOlocation())));
-        @file_put_contents($this->getDebugPDOStatementlocation(),
-        preg_replace([ '/class DebugPDOStatement extends .*/', '/\w+ function __construct\(PropelPDO \$pdo\)/' ],
-                [ 'class DebugPDOStatement extends PDOStatement', 'protected function __construct(PropelPDO $pdo)' ],
-                file_get_contents($this->getDebugPDOStatementlocation())));
+    /**
+     * Extend the PDO classes from other class
+     *
+     * @param string $pdo
+     * @param string $debugPdoStatement
+     * @param string $constScope
+     */
+    protected function extendPdoClass(string $pdo, string $debugPdoStatement, string $constScope)
+    {
+        $body = file_get_contents($this->getPropelPDOlocation());
+        $propelPDO = preg_replace('/class PropelPDO extends .*/',
+                'class PropelPDO extends ' . $pdo,
+                $body);
+        // Only write when it is changed.
+        if ($body != $propelPDO) {
+            @file_put_contents($this->getPropelPDOlocation(), $propelPDO);
+        }
+
+        $bodyDebug = file_get_contents($this->getDebugPDOStatementlocation());
+        $propelDebug = preg_replace(['/class DebugPDOStatement extends .*/', '/\w+ function __construct\(PropelPDO \$pdo\)/' ],
+                ['class DebugPDOStatement extends ' . $debugPdoStatement, $constScope . ' function __construct(PropelPDO $pdo)' ],
+                $bodyDebug);
+        // Only write when it is changed.
+        if ($bodyDebug != $propelDebug) {
+            @file_put_contents($this->getDebugPDOStatementlocation(), $propelDebug);
+        }
     }
 
     /**
